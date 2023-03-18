@@ -18,3 +18,16 @@ class ProductRepository:
             print(f"error_product {error_product}")
         finally:
             connect.close()
+
+    def products(self):
+        try:
+            connect = self.get_connect()
+            cursor = connect.cursor()
+            cursor.execute(
+                """select * from `product`""")
+            products = cursor.fetchall()
+            return products
+        except Exception as error_product:
+            print(f"error_product {error_product}")
+        finally:
+            connect.close()
