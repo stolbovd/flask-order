@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Test Backend</title>
+<!--	<script src="node_modules/axios/dist/axios.js"/>-->
+	<script src="libs/axios.min.js"></script>
+	<style>
+        .education {
+	        color: aqua;
+        }
+	</style>
+</head>
+<body>
+<h3 id="data">
+	Hello Students
+</h3>
+<h3 class="education" id="products">
+	Products
+</h3>
+<script>
+	function get_uri(uri, onOk) {
+		axios.get("http://127.0.0.1:5000/"+uri)
+			.then((response) => onOk(response))
+			.catch(error => {
+				console.log(error)
+				alert("Ошибка обращения к BackEnd: " + error)
+			});
+	}
+
+	window.onload = () => {
+		get_uri("product/1",
+			(response) => {
+				document.getElementById("data").innerText = response.data
+			});
+		get_uri("product",
+			response => document.getElementById("products").innerText = response.data);
+	}
+</script>
+</body>
+</html>

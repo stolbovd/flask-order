@@ -1,13 +1,33 @@
 import sqlite3
 
+
 class ProductRepository:
-    
-    def __init__(self) -> None:
-        connect = sqlite3.connect("db/order.sqlite")
-        self.cursor = connect.cursor()
+
+    def get_connect(self):
+        return sqlite3.connect("../db/order.sqlite")
 
     def product(self, productId):
-        self.cursor.execute("select * from `product` where id = ?", [productId])
-        product = self.cursor.fetchone()
-        print(product)
-        return product
+        try:
+            connect = self.get_connect()
+            cursor = connect.cursor()
+            cursor.execute(
+                """select * from `product` where id = ?""", (productId,))
+            product = cursor.fetchone()
+            return product
+        except Exception as error_product:
+            print(f"error_product {error_product}")
+        finally:
+            connect.close()
+
+    def products(self):
+        try:
+            connect = self.get_connect()
+            cursor = connect.cursor()
+            cursor.execute(
+                """select * from `product`""")
+            products = cursor.fetchall()
+            return products
+        except Exception as error_product:
+            print(f"error_product {error_product}")
+        finally:
+            connect.close()

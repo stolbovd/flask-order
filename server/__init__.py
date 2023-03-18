@@ -1,22 +1,15 @@
 from flask import Flask, redirect, url_for, request, jsonify
-from repository import ProductRepository
+from routes.product import product_bp
+from routes.test import test_bp
+
 
 # инициализация классов
 app = Flask(__name__)
 
-@app.route("/test")
-def route_test():
-    return jsonify({'a': 2})
+app.register_blueprint(test_bp)
+app.register_blueprint(product_bp)
 
-productRepository = ProductRepository()
-
-@app.route("/product/<productId>", methods=["GET"])
-def route_product(productId):
-    print(productId)
-    product = productRepository.product(productId)
-    print(product, productId)
-    return jsonify(product)
 
 # запуск приложения
-#if __name__ == "__main__":
-app.run(debug=True)
+if __name__ == "__main__":
+    app.run(debug=True)
