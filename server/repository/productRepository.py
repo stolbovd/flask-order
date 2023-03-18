@@ -1,10 +1,7 @@
-import sqlite3
+from model.product import Product
+from repository.repository import Repository
 
-
-class ProductRepository:
-
-    def get_connect(self):
-        return sqlite3.connect("../db/order.sqlite")
+class ProductRepository(Repository):
 
     def product(self, productId):
         try:
@@ -13,7 +10,7 @@ class ProductRepository:
             cursor.execute(
                 """select * from `product` where id = ?""", (productId,))
             product = cursor.fetchone()
-            return product
+            return Product(product)
         except Exception as error_product:
             print(f"error_product {error_product}")
         finally:
